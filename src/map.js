@@ -1,7 +1,7 @@
 // The typed map: every country is drawn with the letters of its own name.
 (function () {
   var ASPECT = 2.535;
-  var mask = null, labels = null;
+  var mask = null;
 
   function loadMask() {
     if (mask) return;
@@ -15,10 +15,6 @@
         if (id) mask.fill(id, r * L.w + c, r * L.w + c + n);
         c += n;
       });
-    });
-    // A row of a country reads as THAILAND·THAILAND·
-    labels = L.names.map(function (name) {
-      return name.toUpperCase().replace(/ /g, '·') + '·';
     });
   }
 
@@ -56,6 +52,11 @@
     this.ctx = canvas.getContext('2d');
     this.o = options || {};
     this.view = this.o.view || { lon: 0, lat: 13, w: 360 };
+    // A row of a country reads as THAILAND·THAILAND· in the language of the page.
+    this.names = window.LAND[this.o.lang] || window.LAND.names;
+    this.labels = this.names.map(function (name) {
+      return name.toUpperCase().replace(/ /g, '·') + '·';
+    });
     this.pins = [];
     this.cells = [];
     this.visited = {};
@@ -108,7 +109,7 @@
       var lat = v.lat - (self.pointer.y / self.H - .5) * self.latSpan(v);
       self.hoverId = countryAt(lon, lat);
       if (self.o.onHover) {
-        self.o.onHover(self.hoverId ? window.LAND.names[self.hoverId - 1] : null, self.pointer.x, self.pointer.y);
+        self.o.onHover(self.hoverId ? self.names[self.hoverId - 1] : null, self.pointer.x, self.pointer.y);
       }
       if (self.calm || self.introducing) self.drawOverlay();
     }
@@ -173,7 +174,7 @@
         var id = countryAt(lon, lat);
         if (id !== previous) { run = 0; previous = id; }
         if (!id) continue;
-        var text = labels[id - 1];
+        var text = this.labels[id - 1];
         var strong = !!this.visited[L.names[id - 1]];
         var cell = {
           x: c * this.cellW, y: (r + 1) * this.font - this.font * .2,
@@ -243,7 +244,7 @@
     var id = ids[Math.floor(Math.random() * ids.length)];
     var count = this.groups[id].length;
     this.typing = { id: Number(id), head: 0, step: Math.max(1, Math.ceil(count / 48)), hold: 0 };
-    if (this.o.onTyping) this.o.onTyping(window.LAND.names[id - 1]);
+    if (this.o.onTyping) this.o.onTyping(this.names[id - 1]);
   };
 
   TypedMap.prototype.loop = function () {

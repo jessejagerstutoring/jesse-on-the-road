@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jesse op reis</title>
+<meta name="description" content="Reisverhalen van Jesse, op een wereldkaart getypt uit landnamen.">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" hreflang="en" href="https://jessejagerstutoring.github.io/jesse-on-the-road/">
+<link rel="alternate" hreflang="nl" href="https://jessejagerstutoring.github.io/jesse-on-the-road/nl/">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Naar de verhalen</a>
+<header class="top wrap">
+<a class="brand" href="index.html">Jesse op reis</a>
+<nav aria-label="Hoofdmenu">
+<a href="index.html#all">De kaart</a>
+<a href="index.html#about">Over mij</a>
+<button type="button" class="link-button" id="text-size" aria-pressed="false">Grotere tekst</button>
+<button type="button" class="link-button" id="theme">Donkere modus</button>
+<a id="language" data-lang="en" lang="en" hreflang="en" href="../index.html?lang=en">English</a>
+</nav>
+</header>
+<main id="main">
+<div class="wrap">
+<section class="hero"><h1>Ik ga op reis<span class="and">en ik neem jullie mee.</span></h1></section>
+<section class="atlas" id="map" aria-label="Kaart van de plekken waarover ik heb geschreven">
+<div class="map-stage">
+<canvas id="typed-map" aria-hidden="true"></canvas>
+<div id="map-pins"></div>
+<div class="map-hover" id="map-hover" aria-hidden="true" hidden></div>
+<a id="map-back" href="#all" hidden>&larr; Terug naar de wereld</a>
+</div>
+<div class="legend">
+<p>Kies een nummer om erheen te reizen. Elk land is getypt uit zijn eigen naam. Vetgedrukte landen hebben verhalen, en vervaagde letters staan waar het nu nacht is.</p>
+<div class="legend-side"><p id="local-time"></p><p id="map-typing" aria-hidden="true"></p></div>
+</div>
+</section>
+<section class="index" id="stories" aria-label="Alle verhalen">
+<div class="index-head">
+<div class="chips" id="chips"></div>
+<button type="button" id="surprise">Verras me</button>
+</div>
+<div id="list-status" role="status"></div>
+<a class="story-row" href="stories/the-most-dutch-way-to-see-bangkok.html" data-country="thailand" data-place="bangkok">
+<span class="row-meta"><strong>Bangkok</strong><span>Thailand</span><span>2 min lezen</span></span>
+<span><h2 class="row-title">De meest Nederlandse manier om Bangkok te zien</h2><p class="row-dek">Een fietstocht door steegjes, tempels en iemands huiskamer, gevolgd door een rooftop bar en een heel duur wijntje.</p></span>
+
+</a><a class="story-row" href="stories/the-man-with-the-wrong-phone.html" data-country="thailand" data-place="bangkok">
+<span class="row-meta"><strong>Bangkok</strong><span>Thailand</span><span>3 min lezen</span></span>
+<span><h2 class="row-title">De man met de verkeerde telefoon</h2><p class="row-dek">Een smal hostel achter de drukte van Bangkok, een kwijtgeraakte telefoon, en het onwaarschijnlijke clubje van drie dat eruit voortkwam.</p></span>
+
+</a><a class="story-row" href="stories/thank-you-joang.html" data-country="thailand" data-place="bangkok">
+<span class="row-meta"><strong>Bangkok</strong><span>Thailand</span><span>2 min lezen</span></span>
+<span><h2 class="row-title">Bedankt, Joang</h2><p class="row-dek">In de laatste trein naar het vliegveld bood een vreemde aan om te helpen. Ik was achterdochtig. Dat had ik niet hoeven zijn.</p></span>
+
+</a>
+<p class="next-up">Volgende op de kaart: Chiang Mai. Verhaal volgt.</p>
+</section>
+<section class="about" id="about">
+<h2>Over mij</h2>
+<div><p>Hoi, ik ben Jesse. Ik ging steeds naar mooie plekken en schreef er vervolgens niets van op, dus dit is waar dat stopt. Hier staan de verhalen, vaak getypt terwijl ik op een vliegveld zit te wachten, samen met alles wat ik vooraf had willen weten.</p></div>
+</section>
+<footer class="foot">3 verhalen, 1 land, 1 plek, 7 minuten leestijd.</footer>
+</div>
+</main>
+<script>window.SITE={"upcoming": [{"place": "Chiang Mai", "country": "Thailand", "lat": 18.79, "lon": 98.98, "tz": "Asia/Bangkok", "keyPlace": "chiang-mai", "keyCountry": "thailand"}], "stories": [{"place": "Bangkok", "country": "Thailand", "countryEn": "Thailand", "lat": 13.75, "lon": 100.5, "tz": "Asia/Bangkok", "keyPlace": "bangkok", "keyCountry": "thailand", "url": "stories/the-most-dutch-way-to-see-bangkok.html"}, {"place": "Bangkok", "country": "Thailand", "countryEn": "Thailand", "lat": 13.75, "lon": 100.5, "tz": "Asia/Bangkok", "keyPlace": "bangkok", "keyCountry": "thailand", "url": "stories/the-man-with-the-wrong-phone.html"}, {"place": "Bangkok", "country": "Thailand", "countryEn": "Thailand", "lat": 13.75, "lon": 100.5, "tz": "Asia/Bangkok", "keyPlace": "bangkok", "keyCountry": "thailand", "url": "stories/thank-you-joang.html"}], "lang": "nl", "t": {"larger": "Grotere tekst", "smaller": "Kleinere tekst", "dark": "Donkere modus", "light": "Lichte modus", "story_coming": ", verhaal volgt", "story": "verhaal", "stories": "verhalen", "from": "uit", "world": "de hele wereld", "of": "van", "time": "Het is nu {time} in {place}.", "typing": "Nu aan het typen: {name}", "share": "Stuur dit verhaal door", "copied": "Link gekopieerd", "all_stories": "Alle verhalen"}};</script>
+<script src="../assets/land.js"></script><script src="../assets/map.js"></script><script src="../assets/site.js"></script>
+</body>
+</html>

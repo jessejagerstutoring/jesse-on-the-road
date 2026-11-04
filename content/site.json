@@ -1,10 +1,30 @@
 {
-  "name": "Jesse on the Road",
-  "description": "Travel stories from Jesse, told on a world map typed out of country names.",
-  "headline": "I'm going on a trip",
-  "subline": "and I'm taking you with me.",
-  "about": "Hi, I'm Jesse. I kept going to good places and not writing any of it down, so this is where that stops. These are the stories, often typed while waiting at an airport, along with whatever I wish someone had told me first.",
+  "url": "https://jessejagerstutoring.github.io/jesse-on-the-road/",
+  "en": {
+    "name": "Jesse on the Road",
+    "description": "Travel stories from Jesse, told on a world map typed out of country names.",
+    "headline": "I'm going on a trip",
+    "subline": "and I'm taking you with me.",
+    "about": "Hi, I'm Jesse. I kept going to good places and not writing any of it down, so this is where that stops. These are the stories, often typed while waiting at an airport, along with whatever I wish someone had told me first."
+  },
+  "nl": {
+    "name": "Jesse op reis",
+    "description": "Reisverhalen van Jesse, op een wereldkaart getypt uit landnamen.",
+    "headline": "Ik ga op reis",
+    "subline": "en ik neem jullie mee.",
+    "about": "Hoi, ik ben Jesse. Ik ging steeds naar mooie plekken en schreef er vervolgens niets van op, dus dit is waar dat stopt. Hier staan de verhalen, vaak getypt terwijl ik op een vliegveld zit te wachten, samen met alles wat ik vooraf had willen weten."
+  },
   "upcoming": [
-    {"place": "Chiang Mai", "country": "Thailand", "lat": 18.79, "lon": 98.98, "tz": "Asia/Bangkok"}
+    {
+      "place": "Chiang Mai",
+      "country": "Thailand",
+      "lat": 18.79,
+      "lon": 98.98,
+      "tz": "Asia/Bangkok",
+      "nl": {
+        "place": "Chiang Mai",
+        "country": "Thailand"
+      }
+    }
   ]
 }

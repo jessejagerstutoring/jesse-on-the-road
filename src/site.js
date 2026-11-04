@@ -1,6 +1,16 @@
 // Everything on the site that moves or responds to a click, apart from the map itself.
 (function () {
   var SITE = window.SITE || {};
+  var t = SITE.t || {};
+
+  // Choosing a language is remembered, and the place on the map comes along.
+  var languageLink = document.getElementById('language');
+  if (languageLink) {
+    languageLink.addEventListener('click', function () {
+      store('lang', languageLink.dataset.lang);
+      languageLink.href += location.hash;
+    });
+  }
 
   function store(key, value) {
     try {
@@ -21,7 +31,7 @@
     var applySize = function (large) {
       document.documentElement.toggleAttribute('data-large-text', large);
       sizeButton.setAttribute('aria-pressed', large ? 'true' : 'false');
-      sizeButton.textContent = large ? 'Smaller text' : 'Larger text';
+      sizeButton.textContent = large ? t.smaller : t.larger;
     };
     applySize(store('large-text') === '1');
     sizeButton.addEventListener('click', function () {
@@ -37,7 +47,7 @@
     var applyTheme = function (dark) {
       if (dark) document.documentElement.setAttribute('data-theme', 'dark');
       else document.documentElement.removeAttribute('data-theme');
-      themeButton.textContent = dark ? 'Light mode' : 'Dark mode';
+      themeButton.textContent = dark ? t.light : t.dark;
       var meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute('content', dark ? '#0d0d0d' : '#ffffff');
     };
@@ -54,15 +64,14 @@
   var mapCanvas = document.getElementById('typed-map');
   if (mapCanvas && window.TypedMap && !mapCanvas.dataset.mini) home();
 
-  function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
-
   function home() {
     var stories = SITE.stories;
     var upcoming = SITE.upcoming || [];
     var hoverLabel = document.getElementById('map-hover');
     var typingLabel = document.getElementById('map-typing');
     var map = new window.TypedMap(mapCanvas, {
-      visited: stories.map(function (s) { return s.country; }),
+      lang: SITE.lang,
+      visited: stories.map(function (s) { return s.countryEn; }),
       onHover: function (name, x, y) {
         hoverLabel.hidden = !name;
         if (!name) return;
@@ -70,24 +79,24 @@
         hoverLabel.style.transform = 'translate(' + x + 'px,' + y + 'px)';
         hoverLabel.classList.toggle('flip', x > mapCanvas.clientWidth * .72);
       },
-      onTyping: function (name) { typingLabel.textContent = 'Now typing: ' + name; }
+      onTyping: function (name) { typingLabel.textContent = t.typing.replace('{name}', name); }
     });
     var host = document.getElementById('map-pins');
     var world = { lon: 0, lat: 13, w: 360 };
 
     var places = {};
     stories.forEach(function (s) {
-      var key = slug(s.place);
-      if (!places[key]) places[key] = { key: key, name: s.place, country: s.country, lat: s.lat, lon: s.lon, tz: s.tz, count: 0 };
+      var key = s.keyPlace;
+      if (!places[key]) places[key] = { key: key, name: s.place, country: s.country, keyCountry: s.keyCountry, lat: s.lat, lon: s.lon, tz: s.tz, count: 0 };
       places[key].count++;
     });
     upcoming.forEach(function (u) {
-      places[slug(u.place)] = { key: slug(u.place), name: u.place, country: u.country, lat: u.lat, lon: u.lon, tz: u.tz, count: 0, next: true };
+      places[u.keyPlace] = { key: u.keyPlace, name: u.place, country: u.country, keyCountry: u.keyCountry, lat: u.lat, lon: u.lon, tz: u.tz, count: 0, next: true };
     });
 
     var countries = {};
     Object.keys(places).forEach(function (k) {
-      var p = places[k], key = slug(p.country);
+      var p = places[k], key = p.keyCountry;
       var c = countries[key] || (countries[key] = { key: key, name: p.country, places: [], count: 0 });
       c.places.push(p);
       c.count += p.count;
@@ -112,7 +121,7 @@
       if (hash) a.href = '#' + hash;
       a.innerHTML = '<span class="pin-dot">' + (count || '') + '</span><span class="pin-label"></span>';
       a.querySelector('.pin-label').textContent = label;
-      if (hash) a.setAttribute('aria-label', label + ', ' + count + (count === 1 ? ' story' : ' stories'));
+      if (hash) a.setAttribute('aria-label', label + ', ' + count + ' ' + (count === 1 ? t.story : t.stories));
       host.appendChild(a);
       return { el: a, lon: lon, lat: lat };
     }
@@ -126,8 +135,8 @@
     });
     Object.keys(places).forEach(function (k) {
       var p = places[k];
-      var pin = makePin(p.next ? p.name + ', story coming' : p.name, p.count, p.lon, p.lat, p.next ? null : p.key, p.next ? 'place next' : 'place');
-      pin.placeOf = slug(p.country);
+      var pin = makePin(p.next ? p.name + t.story_coming : p.name, p.count, p.lon, p.lat, p.next ? null : p.key, p.next ? 'place next' : 'place');
+      pin.placeOf = p.keyCountry;
       pin.place = p.key;
       pins.push(pin);
     });
@@ -142,7 +151,7 @@
       a.dataset.hash = hash;
       chips.appendChild(a);
     }
-    addChip('All stories', 'all');
+    addChip(t.all_stories, 'all');
     Object.keys(countries).forEach(function (k) { addChip(countries[k].name, k); });
     Object.keys(places).forEach(function (k) { if (!places[k].next) addChip(places[k].name, k); });
 
@@ -152,7 +161,7 @@
 
     function select(hash) {
       var country = countries[hash], place = places[hash] && !places[hash].next ? places[hash] : null;
-      var scope = country || (place && countries[slug(place.country)]);
+      var scope = country || (place && countries[place.keyCountry]);
       map.flyTo(scope ? scope.view : world);
       pins.forEach(function (pin) {
         var show = scope ? pin.placeOf === scope.key : !!pin.country;
@@ -170,8 +179,8 @@
         var on = chip.dataset.hash === hash || (!scope && chip.dataset.hash === 'all');
         if (on) chip.setAttribute('aria-current', 'true'); else chip.removeAttribute('aria-current');
       });
-      var where = place ? place.name : country ? country.name : 'the world';
-      status.textContent = shown + (shown === 1 ? ' story' : ' stories') + ' from ' + where;
+      var where = place ? place.name : country ? country.name : t.world;
+      status.textContent = shown + ' ' + (shown === 1 ? t.story : t.stories) + ' ' + t.from + ' ' + where;
     }
 
     function fromHash() {
@@ -202,7 +211,7 @@
       var latest = stories[stories.length - 1];
       var tick = function () {
         var time = clock(latest.tz);
-        local.textContent = time ? 'It is ' + time + ' in ' + latest.place + ' right now.' : '';
+        local.textContent = time ? t.time.replace('{time}', time).replace('{place}', latest.place) : '';
       };
       tick();
       setInterval(tick, 30000);
@@ -214,6 +223,7 @@
   if (mini && window.TypedMap) {
     new window.TypedMap(mini, {
       mini: true,
+      lang: SITE.lang,
       visited: [mini.dataset.country],
       view: { lon: Number(mini.dataset.lon), lat: Number(mini.dataset.lat), w: 44 }
     });
@@ -239,12 +249,12 @@
       var data = { title: document.title, url: location.href };
       var said = function (text) {
         share.textContent = text;
-        setTimeout(function () { share.textContent = 'Send this story to someone'; }, 2500);
+        setTimeout(function () { share.textContent = t.share; }, 2500);
       };
       if (navigator.share) {
         navigator.share(data).catch(function () {});
       } else if (navigator.clipboard) {
-        navigator.clipboard.writeText(location.href).then(function () { said('Link copied'); }, function () { said(location.href); });
+        navigator.clipboard.writeText(location.href).then(function () { said(t.copied); }, function () { said(location.href); });
       } else {
         said(location.href);
       }
@@ -263,7 +273,7 @@
       var link = links[index];
       big.src = link.href;
       big.alt = link.querySelector('img').alt;
-      note.textContent = (index + 1) + ' of ' + links.length + '. ' + link.dataset.caption;
+      note.textContent = (index + 1) + ' ' + t.of + ' ' + links.length + '. ' + link.dataset.caption;
     };
     links.forEach(function (link, i) {
       link.addEventListener('click', function (e) {
