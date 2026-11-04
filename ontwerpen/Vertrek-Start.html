@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vertrekbord, startpagina</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;800;900&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+body{margin:0;background:#000}
+a{color:#fff}a:hover{color:#fff}
+a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.rij:hover{background:#2a2a2a}
+.tile{width:clamp(25px,3.6vw,46px);height:clamp(38px,5.2vw,66px);font-size:clamp(26px,4vw,50px)}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="background: #000; color: #fff; font-family: 'Courier Prime', 'Courier New', monospace; font-size: 20px; line-height: 1.45; padding-inline: max(16px, 4vw); padding-block: 28px 56px;">
+<div style="max-width: 1184px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+
+<header style="display: flex; flex-wrap: wrap; gap: 12px 40px; justify-content: space-between; align-items: flex-end;">
+<h1 style="margin: 0; font-family: 'Big Shoulders Display', Impact, sans-serif; font-weight: 900; font-size: clamp(72px, 13vw, 164px); line-height: .82; letter-spacing: .005em;">VERTREK</h1>
+<p style="margin: 0; flex: 0 1 400px; min-width: 0;">Dit zijn al mijn reizen. Kies een bestemming en lees wat er gebeurde.</p>
+</header>
+
+<section aria-label="Alle bestemmingen" style="display: flex; flex-direction: column; border-top: 3px solid #fff;">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<a class="rij" href="Vertrek-Verhaal.html" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; padding: 14px 8px; border-bottom: 1px solid #777; text-decoration: none;">
+<span style="flex: 0 0 auto; display: flex; gap: 3px;" aria-label="{{r.place}}">
+<sc-for list="{{r.letters}}" as="l" hint-placeholder-count="9">
+<span class="tile" aria-hidden="true" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(#242424 49%, #000 49%, #000 51%, #161616 51%); color: #fff; font-family: 'Big Shoulders Display', Impact, sans-serif; font-weight: 800; border-radius: 3px;">{{l.c}}</span>
+</sc-for>
+</span>
+<span style="flex: 1 1 320px; min-width: 0; font-size: 22px; line-height: 1.25;">{{r.title}}</span>
+<span style="flex: 0 0 auto; font-weight: 700; border: 2px solid #fff; padding: 6px 12px;">{{r.status}}</span>
+</a>
+</sc-for>
+</section>
+
+<section aria-label="Wereldkaart" style="position: relative;">
+<img src="assets/world-dots.svg" alt="Wereldkaart van witte stippen met zes genummerde bestemmingen" style="display: block; width: 100%; height: auto; filter: invert(1);">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<span style="position: absolute; left: {{r.x}}; top: {{r.y}}; transform: translate(-50%, -50%); padding: 2px 9px; background: #fff; color: #000; font-family: 'Big Shoulders Display', Impact, sans-serif; font-weight: 900; font-size: clamp(14px, 1.9vw, 24px); line-height: 1.1; white-space: nowrap;">{{r.short}}</span>
+</sc-for>
+</section>
+
+<p style="margin: 0; font-size: 16px;">Voorbeeldverhalen. Hier komen jouw eigen verhalen en foto's.</p>
+</div>
+</div>
+</template>
+<a href="index.html" style="position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:50;padding:10px 14px;background:#fff;color:#000;border:2px solid #000;font:700 16px Arial,sans-serif;text-decoration:none">Alle ontwerpen</a>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const rows = [
+      { place: 'REYKJAVIK', title: 'Zwemmen terwijl het sneeuwt', status: 'TE LEZEN', x: '43.91%', y: '11.32%' },
+      { place: 'LISSABON', title: 'De tram die bijna de muur raakte', status: 'TE LEZEN', x: '47.46%', y: '29.49%' },
+      { place: 'KAAPSTAD', title: 'De pinguïns van Boulders Beach', status: 'TE LEZEN', x: '55.12%', y: '81.37%' },
+      { place: 'HANOI', title: 'Koffie met een ei erin', status: 'TE LEZEN', x: '79.40%', y: '42.12%' },
+      { place: 'KYOTO', title: 'Om zes uur tussen de poorten', status: 'TE LEZEN', x: '87.71%', y: '32.14%' },
+      { place: 'PATAGONIE', title: 'Vier seizoenen op één dag', status: 'ONDERWEG', x: '29.73%', y: '93.53%' }
+    ].map(r => {
+      const padded = r.place.padEnd(9, ' ');
+      return { ...r, short: r.place, letters: padded.split('').map(c => ({ c })) };
+    });
+    return { rows };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

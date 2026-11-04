@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De route</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;700;900&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+body{margin:0;background:#fff}
+button{cursor:pointer}
+button:hover{background:#000!important;color:#fff!important}
+button:focus-visible{outline:3px solid #000;outline-offset:3px}
+.venster{aspect-ratio:1/1}
+@media(max-width:800px){.venster{aspect-ratio:2/1}}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="background: #fff; color: #000; font-family: 'Schibsted Grotesk', Arial, sans-serif; font-size: 21px; line-height: 1.55; display: flex; flex-wrap: wrap; align-items: flex-start;">
+
+<aside aria-label="Kaart van de route" style="flex: 1 1 420px; min-width: 0; position: sticky; top: 0; z-index: 2; background: #000; color: #fff;">
+<div class="venster" style="position: relative; overflow: hidden; background: #000;">
+<div style="position: absolute; left: 50%; top: 50%; width: 300%; aspect-ratio: 360 / 140; transform: translate(-{{cur.x}}, -{{cur.y}}); transition: transform .9s ease-in-out;">
+<img src="assets/world-solid.svg" alt="" style="position: absolute; inset: 0; width: 100%; max-width: none; height: 100%; filter: invert(1) brightness(.34);">
+<svg viewBox="0 0 360 140" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+<polyline points="158.06,15.85 170.86,41.28 198.42,113.92 285.85,58.97 315.77,44.99 107.01,130.94" fill="none" stroke="#fff" stroke-width=".6" stroke-dasharray="2 1.6"></polyline>
+</svg>
+<sc-for list="{{stops}}" as="s" hint-placeholder-count="6">
+<span style="position: absolute; left: {{s.x}}; top: {{s.y}}; transform: translate(-50%, -50%); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 3px solid #fff; background: {{s.bg}}; color: {{s.fg}}; font-weight: 900; font-size: 20px;">{{s.n}}</span>
+</sc-for>
+</div>
+</div>
+<div style="padding: 14px clamp(16px, 3vw, 28px); display: flex; flex-direction: column; font-family: 'Courier Prime', 'Courier New', monospace;" aria-live="polite">
+<span style="font-size: 17px;">Nu op de kaart</span>
+<strong style="font-size: 24px; line-height: 1.25;">{{cur.n}}. {{cur.place}}</strong>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; padding-inline: max(16px, 4vw); padding-block: 40px 72px; display: flex; flex-direction: column; gap: 64px;">
+<header style="display: flex; flex-direction: column; gap: 14px; max-width: 640px;">
+<h1 style="margin: 0; font-weight: 900; font-size: clamp(56px, 8vw, 104px); line-height: .92; letter-spacing: -.04em;">De route</h1>
+<p style="margin: 0; font-family: 'Courier Prime', 'Courier New', monospace;">Alle verhalen staan op deze ene pagina. Scroll rustig naar beneden. De kaart reist met je mee.</p>
+</header>
+
+<sc-for list="{{stops}}" as="s" hint-placeholder-count="6">
+<article data-stop="{{s.i}}" style="display: flex; flex-direction: column; gap: 18px; max-width: 640px;">
+<p style="margin: 0; font-family: 'Courier Prime', 'Courier New', monospace; font-weight: 700;">{{s.n}}. {{s.place}} &middot; {{s.coord}}</p>
+<h2 style="margin: 0; font-weight: 900; font-size: clamp(32px, 4vw, 46px); line-height: 1.04; letter-spacing: -.025em; text-wrap: balance;">{{s.title}}</h2>
+<div style="aspect-ratio: 16 / 8; max-width: 100%; overflow: hidden; border: 2px solid #000;">
+<img src="{{s.img}}" alt="{{s.alt}}" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+</div>
+<sc-for list="{{s.text}}" as="p" hint-placeholder-count="2">
+<p style="margin: 0;">{{p.t}}</p>
+</sc-for>
+<p style="margin: 0; padding: 14px 16px; border: 2px solid #000; font-family: 'Courier Prime', 'Courier New', monospace; font-size: 19px; line-height: 1.4;"><strong>Tip:</strong> {{s.tip}}</p>
+<button type="button" onClick="{{s.pick}}" style="align-self: flex-start; min-height: 48px; padding: 8px 18px; background: #fff; color: #000; border: 2px solid #000; font-family: 'Courier Prime', 'Courier New', monospace; font-size: 19px;">Toon {{s.place}} op de kaart</button>
+</article>
+</sc-for>
+<p style="margin: 0; font-size: 16px;">Voorbeeldverhalen en tekeningen. Hier komen jouw eigen verhalen en foto's.</p>
+</main>
+</div>
+</template>
+<a href="index.html" style="position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:50;padding:10px 14px;background:#fff;color:#000;border:2px solid #000;font:700 16px Arial,sans-serif;text-decoration:none">Alle ontwerpen</a>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  state = { i: 1 };
+  componentDidMount() {
+    this.onScroll = () => {
+      const els = document.querySelectorAll('[data-stop]');
+      const mid = window.innerHeight / 2;
+      let best = null, dist = Infinity;
+      els.forEach(el => {
+        const r = el.getBoundingClientRect();
+        const d = r.top <= mid && r.bottom >= mid ? 0 : Math.min(Math.abs(r.top - mid), Math.abs(r.bottom - mid));
+        if (d < dist) { dist = d; best = Number(el.getAttribute('data-stop')); }
+      });
+      if (window.scrollY > 40 && best !== null && best !== this.state.i) this.setState({ i: best });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+  }
+  renderVals() {
+    const text = (a) => a.map(t => ({ t }));
+    const data = [
+      { place: 'Reykjavik', coord: '64.15 N, 21.94 W', x: '43.91%', y: '11.32%', title: 'Zwemmen terwijl het sneeuwt', img: 'assets/pool.svg', alt: 'Tekening van een buitenbad in de sneeuw',
+        text: text(['Min vier buiten, plus achtendertig in het water. Mijn haar bevroor terwijl de rest van mij langzaam gaar werd.']), tip: 'Douche je zonder zwemkleding voor je het water in gaat. Dat is daar de regel.' },
+      { place: 'Lissabon', coord: '38.72 N, 9.14 W', x: '47.46%', y: '29.49%', title: 'De tram die bijna de muur raakte', img: 'assets/tram.svg', alt: 'Tekening van tram 28 in een smalle straat met was aan de lijn',
+        text: text(['Om half acht stond ik al bij de halte op Praça Martim Moniz, want iedereen had gezegd: later is het vol. Tram 28 kwam piepend de hoek om, geel en veel kleiner dan ik dacht.', 'De straatjes in de Alfama zijn zo smal dat je de was van iemands balkon kunt aanraken. Bij elke bocht dacht ik: nu gaat het mis.', 'Een mevrouw met een tas sinaasappels stapte in, zag mijn gezicht en lachte. ‘Todos os dias,’ zei ze. Elke dag.']), tip: 'Stap in bij Martim Moniz, vóór negen uur.' },
+      { place: 'Kaapstad', coord: '33.92 S, 18.42 E', x: '55.12%', y: '81.37%', title: 'De pinguïns van Boulders Beach', img: 'assets/penguin.svg', alt: 'Tekening van twee pinguïns voor de Tafelberg',
+        text: text(['Ik kwam voor het strand. De pinguïns hadden andere plannen en liepen gewoon over mijn handdoek.']), tip: 'Blijf op de houten looppaden.' },
+      { place: 'Hanoi', coord: '21.03 N, 105.85 E', x: '79.40%', y: '42.12%', title: 'Koffie met een ei erin', img: 'assets/coffee.svg', alt: 'Tekening van een kop koffie op een laag tafeltje',
+        text: text(['Het klinkt als een vergissing en het smaakt als een toetje. Ik heb er drie gedronken, op een heel laag krukje.']), tip: 'Café Giảng is de bekendste plek voor eikoffie.' },
+      { place: 'Kyoto', coord: '34.97 N, 135.77 E', x: '87.71%', y: '32.14%', title: 'Om zes uur tussen de poorten', img: 'assets/torii.svg', alt: 'Tekening van een rij poorten die de berg op gaat',
+        text: text(['Duizenden poorten en nog geen toerist te zien. Alleen ik, een kat en heel veel traptreden.']), tip: 'De poorten van Fushimi Inari zijn dag en nacht open en gratis.' },
+      { place: 'Patagonië', coord: '50.94 S, 72.99 W', x: '29.73%', y: '93.53%', title: 'Vier seizoenen op één dag', img: 'assets/towers.svg', alt: 'Tekening van drie rotstorens boven een meer',
+        text: text(['Zon bij het ontbijt, hagel bij de lunch. De drie torens lieten zich precies vier minuten zien.']), tip: 'Neem laagjes mee, ook in de zomer.' }
+    ];
+    const cur = this.state.i;
+    const stops = data.map((s, i) => ({
+      ...s, i, n: i + 1,
+      bg: i === cur ? '#fff' : '#000',
+      fg: i === cur ? '#000' : '#fff',
+      pick: () => this.setState({ i })
+    }));
+    return { stops, cur: stops[cur] };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

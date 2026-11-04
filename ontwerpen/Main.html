@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getypte wereld, startpagina</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+body{margin:0;background:#fff}
+a{color:#000}a:hover{color:#000;text-decoration-thickness:3px}
+a:focus-visible{outline:3px solid #000;outline-offset:3px}
+.pin{width:44px;height:44px;font-size:22px}
+.rij:hover{background:#000;color:#fff}
+@media(max-width:700px){.pin{width:26px;height:26px;font-size:14px}}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="background: #fff; color: #000; font-family: 'Courier Prime', 'Courier New', monospace; font-size: 20px; line-height: 1.5; padding-inline: max(16px, 4vw); padding-block: 28px 56px;">
+<div style="max-width: 1184px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px;">
+
+<nav aria-label="Hoofdmenu" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; align-items: center;">
+<a href="Main.html" style="font-weight: 700; text-decoration: none;">Jesse op reis</a>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 28px;">
+<a href="#kaart" style="padding-block: 10px;">De kaart</a>
+<a href="#verhalen" style="padding-block: 10px;">Alle verhalen</a>
+<a href="#over" style="padding-block: 10px;">Over mij</a>
+</div>
+</nav>
+
+<header style="display: flex; flex-direction: column; gap: 12px;">
+<h1 style="margin: 0; font-family: 'Archivo', Arial, sans-serif; font-stretch: 125%; font-weight: 900; font-size: clamp(44px, 10.2vw, 126px); line-height: .92; letter-spacing: -.03em;">Ik ga op reis</h1>
+<p style="margin: 0; font-size: clamp(22px, 3vw, 34px); line-height: 1.2;">en ik neem jullie mee.</p>
+</header>
+
+<section id="kaart" aria-label="Wereldkaart" style="container-type: inline-size; position: relative;">
+<pre aria-hidden="true" style="margin: 0; font-family: 'Courier Prime', 'Courier New', monospace; font-size: calc(100cqw / 86.4); line-height: 1; white-space: pre; color: #000; overflow: hidden;">{{ascii}}</pre>
+<sc-for list="{{stories}}" as="s" hint-placeholder-count="6">
+<a class="pin" href="Getypt-Verhaal.html" aria-label="{{s.aria}}" style="position: absolute; left: {{s.x}}; top: {{s.y}}; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border: 3px solid #000; border-radius: 50%; font-family: 'Archivo', Arial, sans-serif; font-weight: 900; text-decoration: none;">{{s.n}}</a>
+</sc-for>
+</section>
+
+<p style="margin: 0; max-width: 62ch;">Klik op een nummer op de kaart, of kies hieronder een verhaal. De nummers staan op volgorde van mijn reis.</p>
+
+<section id="verhalen" aria-label="Alle verhalen" style="display: flex; flex-direction: column; border-top: 3px solid #000;">
+<sc-for list="{{stories}}" as="s" hint-placeholder-count="6">
+<a class="rij" href="Getypt-Verhaal.html" style="display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: baseline; padding: 18px 12px; border-bottom: 1px solid #000; text-decoration: none; color: inherit;">
+<span style="flex: 0 0 36px; font-family: 'Archivo', Arial, sans-serif; font-weight: 900; font-size: 26px;">{{s.n}}</span>
+<span style="flex: 0 1 230px; min-width: 0;">{{s.place}}</span>
+<span style="flex: 1 1 420px; min-width: 0; font-family: 'Archivo', Arial, sans-serif; font-weight: 700; font-stretch: 100%; font-size: 26px; line-height: 1.2;">{{s.title}}</span>
+<span style="flex: 0 0 auto;">{{s.tijd}}</span>
+</a>
+</sc-for>
+</section>
+
+<p id="over" style="margin: 0; font-size: 16px;">Voorbeeldverhalen. Hier komen jouw eigen verhalen en foto's.</p>
+</div>
+</div>
+</template>
+<a href="index.html" style="position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:50;padding:10px 14px;background:#fff;color:#000;border:2px solid #000;font:700 16px Arial,sans-serif;text-decoration:none">Alle ontwerpen</a>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const ascii = [
+"                                    IKGAOPREISENIKNEEMMEEIKGAOPR              EIS                                E",
+"                                                 NIKNEEMMEEIKGAO                                          PREISENIKNEE",
+"       MMEEIKGAOPREISE    NIKNE   EMME   EIKG     AOPREISENIKN                  EEMME               EIKGAOPREISENIKNEEMMEEIKGAOPREISENIKNEEMM",
+"     EEIKGAOPREISENIKNEEMMEEIKGAOPREIS    ENIKN    EEMMEEI    KGAO           PREI SENIKN EEMMEEIKGAOPREISENIKNEEMMEEIKGAOPREISENIKNEEMMEEIKGAOPR",
+"      EISENIKNEEMMEEIKGAOPREISENIKN      EEM         MEE                  IKGAO PREISENIKNEEMMEEIKGAOPREISENIKNEEMMEEIKGAOPREISENIKNEEMMEEIKGA",
+"       OPR        EISENIKNEEMMEEIKG      AOPREI                       S      EN  IKNEEMMEEIKGAOPREISENIKNEEMMEEIKGAOPREISENIKNEE       MM",
+"                    EEIKGAOPREISENIKNEEMMEEIKGAOP                   REIS  ENIKNEEMMEEIKGAOPREISENIKNEEMMEEIKGAOPREISENIKNEEMMEEI      KG",
+"                      AOPREISENIKNEEMMEEIKGAO                           PREISENIKNEEMMEEIKGAOPREISENIKNEEMMEEIKGAOPREISENIKNEEMM",
+"                      EEIKGAOPREISENIKNEEMMEEIK                        GAOPREISENIKN EEMMEEIKGAOPREISENIKNEEMMEEIKGAOPREISENIK",
+"                      NEEMMEEIKGAOPREISENIK                         NEEMM    E  EI KGAOPREISENIKNEEMMEEIKGAOPREISENIKNEEMME",
+"                       EIKGAOPREISENIKNEEM                           ME EIKG       AOPREISENIKNEEMMEEIKGAOPREISENIKNEEMME E   IK",
+"                         GAOPREISENIKNEE                             MMEEIKGA        OPREISENIKNEEMMEEIKGAOPREISENIKNEEM",
+"                            MEEIKG     A                           OPREISENIKNEEMMEEI KGAOPREISENIKNEEMMEEIKGAOPREISENIKN",
+"                             EEMM                                 EEIKGAOPREISENIKNEEM MEEIKGA     OPREISENIKNEEMMEEIKG A",
+"                              OPR   E   IS                       ENIKNEEMMEEIKGAOPREISE NIKNEEM      MEEIK   GAOPRE",
+"                                 ISEN                            IKNEEMMEEIKGAOPREISENI  KNEE        MMEE     IKGAO     P",
+"                                     RE                           ISENIKNEEMMEEIKGAOPREIS             EN       I KNE    EM",
+"                                       MEEIKGAOPR                  EISENIKNEEMMEEIKGAOPREISE                   N         I",
+"                                         KNEEMMEEIK                         GAOPREISENIKNEE                   M M    EE",
+"                                        IKGAOPREISEN                        IKNEEMMEEIKGA                           OPR E",
+"                                        ISENIKNEEMMEEIKGA                   OPREISENIKNE                         E            MMEE",
+"                                        IKGAOPREISENIKNEEM                   MEEIKGAOPRE                                          IS",
+"                                         ENIKNEEMMEEIKGAO                    PREISENIKNE   E                                MM",
+"                                           EEIKGAOPREISE                     NIKNEEMMEE   IK                             GAOPREISE",
+"                                            NIKNEEMMEEIK                     GAOPREISE    N                           IKNEEMMEEIKGA",
+"                                            OPREISENI                         KNEEMMEE    I                           KGAOPREISENIKNE",
+"                                            EMMEEIKG                          AOPREI                                  SENIKNEEMMEEIKG",
+"                                           AOPREISE                            NIKN                                   EEM    MEEIKGAO",
+"                                           PREISE                                                                               NIKN         EE",
+"                                           MME                                                                                    E",
+"                                          IKGA                                                                                             O",
+"                                          PRE",
+"                                           IS",
+""].join("\n");
+    const stories = [
+      { n: 1, place: 'Reykjavik, IJsland', title: 'Zwemmen terwijl het sneeuwt', tijd: '3 min', x: '43.91%', y: '11.32%' },
+      { n: 2, place: 'Lissabon, Portugal', title: 'De tram die bijna de muur raakte', tijd: '4 min', x: '47.46%', y: '29.49%' },
+      { n: 3, place: 'Kaapstad, Zuid-Afrika', title: 'De pinguïns van Boulders Beach', tijd: '3 min', x: '55.12%', y: '81.37%' },
+      { n: 4, place: 'Hanoi, Vietnam', title: 'Koffie met een ei erin', tijd: '2 min', x: '79.40%', y: '42.12%' },
+      { n: 5, place: 'Kyoto, Japan', title: 'Om zes uur tussen de poorten', tijd: '4 min', x: '87.71%', y: '32.14%' },
+      { n: 6, place: 'Torres del Paine, Chili', title: 'Vier seizoenen op één dag', tijd: '5 min', x: '29.73%', y: '93.53%' }
+    ].map(s => ({ ...s, aria: 'Verhaal ' + s.n + ': ' + s.place }));
+    return { ascii, stories };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

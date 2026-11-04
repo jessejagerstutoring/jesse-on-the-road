@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jesse on the Road</title>
+<meta name="description" content="Travel stories from Jesse, told on a world map typed out of country names.">
+<meta name="theme-color" content="#ffffff">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the stories</a>
+<header class="top wrap">
+<a class="brand" href="index.html">Jesse on the Road</a>
+<nav aria-label="Main menu">
+<a href="index.html#all">The map</a>
+<a href="index.html#about">About</a>
+<button type="button" class="link-button" id="text-size" aria-pressed="false">Larger text</button>
+<button type="button" class="link-button" id="theme">Dark mode</button>
+</nav>
+</header>
+<main id="main">
+<div class="wrap">
+<section class="hero"><h1>I&#x27;m going on a trip<span class="and">and I&#x27;m taking you with me.</span></h1></section>
+<section class="atlas" id="map" aria-label="Map of the places I have written about">
+<div class="map-stage">
+<canvas id="typed-map" aria-hidden="true"></canvas>
+<div id="map-pins"></div>
+<div class="map-hover" id="map-hover" aria-hidden="true" hidden></div>
+<a id="map-back" href="#all" hidden>&larr; Back to the world</a>
+</div>
+<div class="legend">
+<p>Choose a number to travel there. Every country is typed from its own name. Bold countries have stories, and faded letters are where it is night right now.</p>
+<div class="legend-side"><p id="local-time"></p><p id="map-typing" aria-hidden="true"></p></div>
+</div>
+</section>
+<section class="index" id="stories" aria-label="All stories">
+<div class="index-head">
+<div class="chips" id="chips"></div>
+<button type="button" id="surprise">Surprise me</button>
+</div>
+<div id="list-status" role="status"></div>
+<a class="story-row" href="stories/the-most-dutch-way-to-see-bangkok.html" data-country="thailand" data-place="bangkok">
+<span class="row-meta"><strong>Bangkok</strong><span>Thailand</span><span>2 min read</span></span>
+<span><h2 class="row-title">The Most Dutch Way to See Bangkok</h2><p class="row-dek">A bike tour through alleys, temples and someone&#x27;s living room, followed by a rooftop bar and a very expensive glass of wine.</p></span>
+
+</a><a class="story-row" href="stories/the-man-with-the-wrong-phone.html" data-country="thailand" data-place="bangkok">
+<span class="row-meta"><strong>Bangkok</strong><span>Thailand</span><span>3 min read</span></span>
+<span><h2 class="row-title">The Man with the Wrong Phone</h2><p class="row-dek">A narrow hostel behind the noise of Bangkok, a lost phone, and the unlikely club of three that came out of it.</p></span>
+
+</a><a class="story-row" href="stories/thank-you-joang.html" data-country="thailand" data-place="bangkok">
+<span class="row-meta"><strong>Bangkok</strong><span>Thailand</span><span>2 min read</span></span>
+<span><h2 class="row-title">Thank You, Joang</h2><p class="row-dek">On the last train to the airport, a stranger offered to help. I was suspicious. I shouldn&#x27;t have been.</p></span>
+
+</a>
+<p class="next-up">Next on the map: Chiang Mai. Story coming.</p>
+</section>
+<section class="about" id="about">
+<h2>About</h2>
+<div><p>Hi, I&#x27;m Jesse. I kept going to good places and not writing any of it down, so this is where that stops. These are the stories, often typed while waiting at an airport, along with whatever I wish someone had told me first.</p></div>
+</section>
+<footer class="foot">3 stories, 1 country, 1 place, 7 minutes of reading.</footer>
+</div>
+</main>
+<script>window.SITE={"upcoming": [{"place": "Chiang Mai", "country": "Thailand", "lat": 18.79, "lon": 98.98, "tz": "Asia/Bangkok"}], "stories": [{"place": "Bangkok", "country": "Thailand", "lat": 13.75, "lon": 100.5, "tz": "Asia/Bangkok", "url": "stories/the-most-dutch-way-to-see-bangkok.html"}, {"place": "Bangkok", "country": "Thailand", "lat": 13.75, "lon": 100.5, "tz": "Asia/Bangkok", "url": "stories/the-man-with-the-wrong-phone.html"}, {"place": "Bangkok", "country": "Thailand", "lat": 13.75, "lon": 100.5, "tz": "Asia/Bangkok", "url": "stories/thank-you-joang.html"}]};</script>
+<script src="assets/land.js"></script><script src="assets/map.js"></script><script src="assets/site.js"></script>
+</body>
+</html>

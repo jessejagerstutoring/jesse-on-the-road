@@ -1,0 +1,14 @@
+.DS_Store
+# Original photos can contain GPS locations. Only the cleaned copies in docs/photos are published.
+content/**/*.jpg
+content/**/*.jpeg
+content/**/*.JPG
+content/**/*.JPEG
+content/**/*.png
+content/**/*.PNG
+content/**/*.heic
+content/**/*.HEIC
+content/**/*.heif
+content/**/*.webp
+content/**/*.tif
+content/**/*.tiff

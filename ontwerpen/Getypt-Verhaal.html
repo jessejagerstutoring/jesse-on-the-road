@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getypte wereld, verhaal</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+body{margin:0;background:#fff}
+a{color:#000}a:hover{color:#000;text-decoration-thickness:3px}
+a:focus-visible{outline:3px solid #000;outline-offset:3px}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="background: #fff; color: #000; font-family: 'Courier Prime', 'Courier New', monospace; font-size: 21px; line-height: 1.6; padding-inline: max(16px, 4vw); padding-block: 28px 64px;">
+<div style="max-width: 1184px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px;">
+
+<nav aria-label="Hoofdmenu" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; align-items: center;">
+<a href="Main.html" style="padding-block: 10px;">&larr; Terug naar de kaart</a>
+<span>Verhaal 2 van 6</span>
+</nav>
+
+<header style="display: flex; flex-direction: column; gap: 16px;">
+<p style="margin: 0;">Lissabon, Portugal &middot; 38.72 N, 9.14 W &middot; 4 minuten lezen</p>
+<h1 style="margin: 0; font-family: 'Archivo', Arial, sans-serif; font-stretch: 125%; font-weight: 900; font-size: clamp(40px, 7.4vw, 92px); line-height: .98; letter-spacing: -.025em; text-wrap: balance;">De tram die bijna de muur raakte</h1>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start;">
+<article style="flex: 999 1 560px; min-width: 0; max-width: 680px; display: flex; flex-direction: column; gap: 24px;">
+<p style="margin: 0;">Om half acht stond ik al bij de halte op Praça Martim Moniz, want iedereen had gezegd: later is het vol. Tram 28 kwam piepend de hoek om, geel en <s>groter</s> veel kleiner dan ik dacht.</p>
+<p style="margin: 0;">De bestuurder knikte, ik ging achterin zitten en we klommen de Alfama in. De straatjes zijn daar zo smal dat je de was van iemands balkon kunt aanraken. Bij elke bocht dacht ik: nu gaat het mis.</p>
+<figure style="margin: 8px 0; transform: rotate(-1.2deg); background: #fff; border: 1px solid #000; padding: 14px 14px 10px;">
+<img src="assets/tram.svg" alt="Tekening van tram 28 in een smalle straat met was aan de lijn" style="display: block; width: 100%; height: auto;">
+<figcaption style="padding-top: 10px; font-size: 18px;">Foto 1. Hier past nog net een tram tussen. Ik heb het nagemeten met mijn elleboog.</figcaption>
+</figure>
+<p style="margin: 0;">Een mevrouw met een tas sinaasappels stapte in, zag mijn gezicht en lachte. &lsquo;Todos os dias,&rsquo; zei ze. Elke dag.</p>
+<p style="margin: 0;">Bij de Miradouro da Graça ben ik uitgestapt. Beneden lag de stad met al haar daken, en ergens daartussen piepte tram 28 alweer de volgende bocht om.</p>
+</article>
+
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 32px;">
+<div style="position: relative; border: 3px solid #000; aspect-ratio: 1 / 1; overflow: hidden;">
+<img src="assets/world-dots.svg" alt="Uitsnede van de wereldkaart rond Portugal" style="position: absolute; width: 600%; max-width: none; left: -234.8%; top: -18.8%;">
+<span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #000; color: #fff; font-family: 'Archivo', Arial, sans-serif; font-weight: 900;">2</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-family: 'Archivo', Arial, sans-serif; font-weight: 900; font-size: 30px;">Zelf doen?</h2>
+<p style="margin: 0;">x Stap in bij Martim Moniz, vóór negen uur.</p>
+<p style="margin: 0;">x Hou je tas voor je. Zakkenrollers rijden graag mee op deze lijn.</p>
+<p style="margin: 0;">x Koop een dagkaart. Een los kaartje bij de bestuurder is duurder.</p>
+</div>
+</aside>
+</div>
+
+<nav aria-label="Volgend en vorig verhaal" style="display: flex; flex-wrap: wrap; gap: 16px; border-top: 3px solid #000; padding-top: 24px;">
+<a href="Getypt-Verhaal.html" style="flex: 1 1 320px; padding: 16px 0; font-weight: 700;">&larr; Vorig verhaal: Reykjavik</a>
+<a href="Getypt-Verhaal.html" style="flex: 1 1 320px; padding: 16px 20px; background: #000; color: #fff; text-align: center; font-family: 'Archivo', Arial, sans-serif; font-weight: 800; font-size: 24px; text-decoration: none;">Volgend verhaal: Kaapstad &rarr;</a>
+</nav>
+</div>
+</div>
+</template>
+<a href="index.html" style="position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:50;padding:10px 14px;background:#fff;color:#000;border:2px solid #000;font:700 16px Arial,sans-serif;text-decoration:none">Alle ontwerpen</a>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

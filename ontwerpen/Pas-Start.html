@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reispas, startpagina</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;700;900&family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+body{margin:0;background:#000}
+a:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+.stempel:hover{background:#000!important;color:#fff!important}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="background: #000; color: #000; font-family: 'Courier Prime', 'Courier New', monospace; font-size: 20px; line-height: 1.45; padding-inline: max(16px, 4vw); padding-block: 36px 56px;">
+<div style="max-width: 1184px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+
+<section aria-label="Opengeslagen reispas" style="background: #fff; border-radius: 16px; display: flex; flex-wrap: wrap;">
+
+<div style="flex: 1 1 420px; min-width: 0; padding: clamp(20px, 3.4vw, 44px); display: flex; flex-direction: column; gap: 24px; border-right: 1px solid #000;">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 17px;">Reispas van</span>
+<h1 style="margin: 0; font-family: 'Hanken Grotesk', Arial, sans-serif; font-weight: 900; font-size: clamp(48px, 6.6vw, 84px); line-height: .92; letter-spacing: -.03em;">Jesse</h1>
+</div>
+<p style="margin: 0;">Op elke plek krijg ik een stempel. Klik op een stempel en lees wat ik daar heb meegemaakt.</p>
+<div style="position: relative; border: 1px solid #000; padding: 10px;">
+<div style="position: relative;">
+<img src="assets/world-line.svg" alt="Wereldkaart met zes bezochte plekken" style="display: block; width: 100%; height: auto;">
+<sc-for list="{{stamps}}" as="s" hint-placeholder-count="6">
+<span style="position: absolute; left: {{s.x}}; top: {{s.y}}; transform: translate(-50%, -50%); width: 13px; height: 13px; border-radius: 50%; background: #000; border: 2px solid #fff;"></span>
+</sc-for>
+</div>
+</div>
+<dl style="margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<div><dt style="font-size: 16px;">Stempels</dt><dd style="margin: 0; font-weight: 700;">6</dd></div>
+<div><dt style="font-size: 16px;">Thuishaven</dt><dd style="margin: 0; font-weight: 700;">[jouw woonplaats]</dd></div>
+</dl>
+<p aria-hidden="true" style="margin: 0; font-size: clamp(11px, 1.35vw, 17px); line-height: 1.25; letter-spacing: .08em; overflow-wrap: anywhere;">P&lt;NLDVERHALEN&lt;&lt;VAN&lt;&lt;JESSE&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>IKGAOPREIS&lt;&lt;ENIKNEEMJULLIEMEE&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</p>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; padding: clamp(20px, 3.4vw, 44px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 28px 20px; align-content: center;">
+<sc-for list="{{stamps}}" as="s" hint-placeholder-count="6">
+<a class="stempel" href="Pas-Verhaal.html" style="transform: rotate({{s.tilt}}); border: {{s.border}}; border-radius: {{s.radius}}; min-height: 190px; padding: 18px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; color: #000; background: #fff; text-decoration: none; font-family: 'Special Elite', 'Courier New', monospace;">
+<span style="font-size: 16px;">{{s.land}}</span>
+<span style="font-family: 'Hanken Grotesk', Arial, sans-serif; font-weight: 900; font-size: 30px; line-height: 1;">{{s.place}}</span>
+<span style="font-size: 17px; line-height: 1.2;">{{s.title}}</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<a href="Pas-Verhaal.html" style="display: block; padding: 20px; background: #fff; color: #000; text-align: center; font-family: 'Hanken Grotesk', Arial, sans-serif; font-weight: 900; font-size: 26px; text-decoration: none; border-radius: 16px;">Blader door mijn pas &rarr;</a>
+<p style="margin: 0; color: #fff; font-size: 16px;">Voorbeeldverhalen. Hier komen jouw eigen verhalen en foto's.</p>
+</div>
+</div>
+</template>
+<a href="index.html" style="position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:50;padding:10px 14px;background:#fff;color:#000;border:2px solid #000;font:700 16px Arial,sans-serif;text-decoration:none">Alle ontwerpen</a>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  renderVals() {
+    const stamps = [
+      { land: 'IJsland', place: 'Reykjavik', title: 'Zwemmen terwijl het sneeuwt', x: '43.91%', y: '11.32%', tilt: '-4deg', border: '4px double #000', radius: '50%' },
+      { land: 'Portugal', place: 'Lissabon', title: 'De tram die bijna de muur raakte', x: '47.46%', y: '29.49%', tilt: '3deg', border: '4px solid #000', radius: '6px' },
+      { land: 'Zuid-Afrika', place: 'Kaapstad', title: 'De pinguïns van Boulders Beach', x: '55.12%', y: '81.37%', tilt: '-2deg', border: '3px dashed #000', radius: '24px' },
+      { land: 'Vietnam', place: 'Hanoi', title: 'Koffie met een ei erin', x: '79.40%', y: '42.12%', tilt: '5deg', border: '6px double #000', radius: '6px' },
+      { land: 'Japan', place: 'Kyoto', title: 'Om zes uur tussen de poorten', x: '87.71%', y: '32.14%', tilt: '-5deg', border: '4px solid #000', radius: '50%' },
+      { land: 'Chili', place: 'Patagonië', title: 'Vier seizoenen op één dag', x: '29.73%', y: '93.53%', tilt: '2deg', border: '4px dotted #000', radius: '14px' }
+    ];
+    return { stamps };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

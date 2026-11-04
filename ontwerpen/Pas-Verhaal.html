@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reispas, verhaal</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;700;900&family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+body{margin:0;background:#000}
+a:focus-visible,button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+button{cursor:pointer}
+button:hover{background:#000!important;color:#fff!important;border-color:#fff!important}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="background: #000; color: #000; font-family: 'Courier Prime', 'Courier New', monospace; font-size: 21px; line-height: 1.55; padding-inline: max(16px, 4vw); padding-block: 28px 56px;">
+<div style="max-width: 1184px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+
+<nav aria-label="Hoofdmenu"><a href="Pas-Start.html" style="display: inline-block; padding-block: 10px; color: #fff;">&larr; Terug naar alle stempels</a></nav>
+
+<section aria-label="Bladzijde van de reispas" style="background: #fff; border-radius: 16px; display: flex; flex-wrap: wrap;">
+<div style="flex: 1 1 420px; min-width: 0; padding: clamp(20px, 3.4vw, 44px); display: flex; flex-direction: column; gap: 28px; border-right: 1px solid #000;">
+<img src="{{s.img}}" alt="{{s.alt}}" style="display: block; width: 100%; height: auto; border: 2px solid #000; box-sizing: border-box;">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px;">
+<div aria-hidden="true" style="flex: 0 0 auto; transform: rotate(-6deg); width: 168px; height: 168px; box-sizing: border-box; border: 4px double #000; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; font-family: 'Special Elite', 'Courier New', monospace; font-size: 15px; line-height: 1.25;">
+<span>{{s.land}}</span>
+<span style="font-family: 'Hanken Grotesk', Arial, sans-serif; font-weight: 900; font-size: 25px; line-height: 1.05;">{{s.place}}</span>
+<span>{{s.coord}}</span>
+</div>
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-family: 'Hanken Grotesk', Arial, sans-serif; font-weight: 900; font-size: 26px;">Zelf doen?</h2>
+<sc-for list="{{s.tips}}" as="t" hint-placeholder-count="2">
+<p style="margin: 0; font-size: 19px; line-height: 1.4;">{{t.text}}</p>
+</sc-for>
+</div>
+</div>
+</div>
+<article style="flex: 1 1 420px; min-width: 0; padding: clamp(20px, 3.4vw, 44px); display: flex; flex-direction: column; gap: 20px;">
+<span>Bladzijde {{page}} van 6</span>
+<h1 style="margin: 0; font-family: 'Hanken Grotesk', Arial, sans-serif; font-weight: 900; font-size: clamp(36px, 4.8vw, 60px); line-height: 1; letter-spacing: -.025em; text-wrap: balance;">{{s.title}}</h1>
+<sc-for list="{{s.text}}" as="p" hint-placeholder-count="3">
+<p style="margin: 0;">{{p.text}}</p>
+</sc-for>
+</article>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<button type="button" onClick="{{prev}}" style="flex: 1 1 280px; min-height: 72px; background: #000; color: #fff; border: 3px solid #fff; border-radius: 16px; font-family: 'Hanken Grotesk', Arial, sans-serif; font-weight: 700; font-size: 24px;">&larr; Vorige bladzijde</button>
+<button type="button" onClick="{{next}}" style="flex: 2 1 280px; min-height: 72px; background: #fff; color: #000; border: 3px solid #fff; border-radius: 16px; font-family: 'Hanken Grotesk', Arial, sans-serif; font-weight: 900; font-size: 26px;">Volgende bladzijde &rarr;</button>
+</div>
+<p style="margin: 0; color: #fff; font-size: 16px;">Voorbeeldverhalen en tekeningen. Hier komen jouw eigen verhalen en foto's.</p>
+</div>
+</div>
+</template>
+<a href="index.html" style="position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:50;padding:10px 14px;background:#fff;color:#000;border:2px solid #000;font:700 16px Arial,sans-serif;text-decoration:none">Alle ontwerpen</a>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  state = { i: 1 };
+  renderVals() {
+    const list = (a) => a.map(text => ({ text }));
+    const data = [
+      { land: 'IJsland', place: 'Reykjavik', coord: '64.15 N, 21.94 W', title: 'Zwemmen terwijl het sneeuwt', img: 'assets/pool.svg', alt: 'Tekening van een buitenbad in de sneeuw',
+        text: list(['Min vier buiten, plus achtendertig in het water. Mijn haar bevroor terwijl de rest van mij langzaam gaar werd.', 'Naast mij zat een oude meneer de krant te lezen, alsof dit de gewoonste zaak van de wereld was. Voor hem was het dat ook.']),
+        tips: list(['Douche je zonder zwemkleding voor je het water in gaat. Dat is daar de regel.', 'Neem een muts mee. Echt waar.']) },
+      { land: 'Portugal', place: 'Lissabon', coord: '38.72 N, 9.14 W', title: 'De tram die bijna de muur raakte', img: 'assets/tram.svg', alt: 'Tekening van tram 28 in een smalle straat met was aan de lijn',
+        text: list(['Om half acht stond ik al bij de halte op Praça Martim Moniz, want iedereen had gezegd: later is het vol. Tram 28 kwam piepend de hoek om, geel en veel kleiner dan ik dacht.', 'De straatjes in de Alfama zijn zo smal dat je de was van iemands balkon kunt aanraken. Bij elke bocht dacht ik: nu gaat het mis.', 'Een mevrouw met een tas sinaasappels stapte in, zag mijn gezicht en lachte. ‘Todos os dias,’ zei ze. Elke dag.']),
+        tips: list(['Stap in bij Martim Moniz, vóór negen uur.', 'Hou je tas voor je. Zakkenrollers rijden graag mee.']) },
+      { land: 'Zuid-Afrika', place: 'Kaapstad', coord: '33.92 S, 18.42 E', title: 'De pinguïns van Boulders Beach', img: 'assets/penguin.svg', alt: 'Tekening van twee pinguïns voor de Tafelberg',
+        text: list(['Ik kwam voor het strand. De pinguïns hadden andere plannen en liepen gewoon over mijn handdoek.', 'Eentje bleef staan, keek me aan en liep weer door. Ik voelde me beoordeeld.']),
+        tips: list(['Ga vroeg, dan is het er nog rustig.', 'Blijf op de houten looppaden.']) },
+      { land: 'Vietnam', place: 'Hanoi', coord: '21.03 N, 105.85 E', title: 'Koffie met een ei erin', img: 'assets/coffee.svg', alt: 'Tekening van een kop koffie op een laag tafeltje',
+        text: list(['Het klinkt als een vergissing en het smaakt als een toetje. Ik heb er drie gedronken, op een heel laag krukje.', 'Bij het opstaan bleek mijn been geslapen te hebben. De koffie niet, en ik die nacht dus ook niet.']),
+        tips: list(['Café Giảng is de bekendste plek voor eikoffie.', 'Drink hem warm, dan is de room het lekkerst.']) },
+      { land: 'Japan', place: 'Kyoto', coord: '34.97 N, 135.77 E', title: 'Om zes uur tussen de poorten', img: 'assets/torii.svg', alt: 'Tekening van een rij poorten die de berg op gaat',
+        text: list(['Duizenden poorten en nog geen toerist te zien. Alleen ik, een kat en heel veel traptreden.', 'De kat was eerder boven dan ik.']),
+        tips: list(['De poorten van Fushimi Inari zijn dag en nacht open en gratis.', 'Hoe hoger je klimt, hoe rustiger het wordt.']) },
+      { land: 'Chili', place: 'Patagonië', coord: '50.94 S, 72.99 W', title: 'Vier seizoenen op één dag', img: 'assets/towers.svg', alt: 'Tekening van drie rotstorens boven een meer',
+        text: list(['Zon bij het ontbijt, hagel bij de lunch. De drie torens lieten zich precies vier minuten zien.', 'Die vier minuten waren de hele klim waard. Dat zei ik pas de volgende dag, toen mijn benen weer meededen.']),
+        tips: list(['Neem laagjes mee, ook in de zomer.', 'Ga vroeg op pad, de wind neemt vaak toe.']) }
+    ];
+    const i = this.state.i;
+    const go = (d) => () => this.setState({ i: (i + d + data.length) % data.length });
+    return { s: data[i], page: i + 1, prev: go(-1), next: go(1) };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

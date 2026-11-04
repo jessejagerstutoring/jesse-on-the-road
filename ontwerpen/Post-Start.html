@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ansichtkaarten, startpagina</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Special+Elite&display=swap">
+<style>
+body{margin:0;background:#fff}
+a{color:#000}a:hover{color:#000;text-decoration-thickness:3px}
+a:focus-visible,button:focus-visible{outline:3px solid #000;outline-offset:3px}
+button{cursor:pointer}
+button:hover{background:#000!important;color:#fff!important}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="background: #fff; color: #000; font-family: 'Special Elite', 'Courier New', monospace; font-size: 20px; line-height: 1.45; padding-inline: max(16px, 4vw); padding-block: 28px 56px;">
+<div style="max-width: 1184px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px;">
+
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: center;">
+<header style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 6vw, 72px); line-height: .95; letter-spacing: -.03em;">Post van Jesse</h1>
+<p style="margin: 0;">Elke plek krijgt een ansichtkaart. Draai een kaart om en lees wat ik schreef.</p>
+</header>
+<section aria-label="Wereldkaart" style="flex: 3 1 560px; min-width: 0; position: relative;">
+<img src="assets/world-dots.svg" alt="Wereldkaart van stippen met zes genummerde plekken" style="display: block; width: 100%; height: auto;">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="6">
+<span style="position: absolute; left: {{c.x}}; top: {{c.y}}; transform: translate(-50%, -50%); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #000; color: #fff; border: 2px solid #fff; border-radius: 50%; font-family: 'Bricolage Grotesque', Arial, sans-serif; font-weight: 800; font-size: 17px;">{{c.n}}</span>
+</sc-for>
+</section>
+</div>
+
+<section aria-label="Ansichtkaarten" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 28px;">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="6">
+<div style="transform: rotate({{c.tilt}}); border: 2px solid #000; background: #fff; min-height: 320px; display: flex; flex-direction: column; box-shadow: 6px 6px 0 #000;">
+<sc-if value="{{c.front}}" hint-placeholder-val="{{ true }}">
+<div style="position: relative; flex: 1 1 auto; min-height: 262px; overflow: hidden; background: #fff;">
+<img src="{{c.img}}" alt="{{c.alt}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+<div style="position: absolute; left: 0; bottom: 0; background: #000; color: #fff; padding: 8px 16px 10px; display: flex; flex-direction: column;">
+<span style="font-size: 17px;">Groeten uit</span>
+<span style="font-family: 'Bricolage Grotesque', Arial, sans-serif; font-weight: 800; font-size: 34px; line-height: 1;">{{c.short}}</span>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{c.flipped}}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1 1 auto; min-height: 262px; padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+<span style="font-family: 'Bricolage Grotesque', Arial, sans-serif; font-weight: 800; font-size: 23px; line-height: 1.1;">{{c.title}}</span>
+<span aria-hidden="true" style="flex: 0 0 auto; width: 48px; height: 58px; border: 2px dashed #000; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', Arial, sans-serif; font-weight: 800; font-size: 26px;">{{c.n}}</span>
+</div>
+<p style="margin: 0; font-size: 19px; line-height: 1.35;">{{c.lead}}</p>
+<a href="Post-Verhaal.html" style="margin-top: auto; padding-block: 8px; font-size: 20px;">Lees het hele verhaal</a>
+</div>
+</sc-if>
+<button type="button" onClick="{{c.toggle}}" style="min-height: 48px; border: 0; border-top: 2px solid #000; background: #fff; color: #000; font-family: 'Special Elite', 'Courier New', monospace; font-size: 19px;">{{c.action}}</button>
+</div>
+</sc-for>
+</section>
+
+<p style="margin: 0; font-size: 16px;">Voorbeeldverhalen en tekeningen. Hier komen jouw eigen verhalen en foto's.</p>
+</div>
+</div>
+</template>
+<a href="index.html" style="position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:12px;z-index:50;padding:10px 14px;background:#fff;color:#000;border:2px solid #000;font:700 16px Arial,sans-serif;text-decoration:none">Alle ontwerpen</a>
+<script type="text/plain" id="dc-logic">
+class Component extends DCLogic {
+  state = { open: { 2: true } };
+  renderVals() {
+    const data = [
+      { n: 1, short: 'Reykjavik', img: 'assets/pool.svg', alt: 'Tekening van een buitenbad in de sneeuw', title: 'Zwemmen terwijl het sneeuwt', lead: 'Min vier buiten, plus achtendertig in het water. Mijn haar bevroor terwijl de rest van mij langzaam gaar werd.', x: '43.91%', y: '11.32%', tilt: '-1deg' },
+      { n: 2, short: 'Lissabon', img: 'assets/tram.svg', alt: 'Tekening van tram 28 in een smalle straat', title: 'De tram die bijna de muur raakte', lead: 'Tram 28 rijdt door straatjes die smaller zijn dan de tram. Een mevrouw met sinaasappels vond mijn gezicht erg grappig.', x: '47.46%', y: '29.49%', tilt: '.8deg' },
+      { n: 3, short: 'Kaapstad', img: 'assets/penguin.svg', alt: 'Tekening van twee pinguïns voor de Tafelberg', title: 'De pinguïns van Boulders Beach', lead: 'Ik kwam voor het strand. De pinguïns hadden andere plannen en liepen gewoon over mijn handdoek.', x: '55.12%', y: '81.37%', tilt: '-.6deg' },
+      { n: 4, short: 'Hanoi', img: 'assets/coffee.svg', alt: 'Tekening van een kop koffie op een laag tafeltje', title: 'Koffie met een ei erin', lead: 'Het klinkt als een vergissing en het smaakt als een toetje. Ik heb er drie gedronken, op een heel laag krukje.', x: '79.40%', y: '42.12%', tilt: '1deg' },
+      { n: 5, short: 'Kyoto', img: 'assets/torii.svg', alt: 'Tekening van een rij poorten die de berg op gaat', title: 'Om zes uur tussen de poorten', lead: 'Duizenden poorten en nog geen toerist te zien. Alleen ik, een kat en heel veel traptreden.', x: '87.71%', y: '32.14%', tilt: '-.9deg' },
+      { n: 6, short: 'Patagonië', img: 'assets/towers.svg', alt: 'Tekening van drie rotstorens boven een meer', title: 'Vier seizoenen op één dag', lead: 'Zon bij het ontbijt, hagel bij de lunch. De drie torens lieten zich precies vier minuten zien.', x: '29.73%', y: '93.53%', tilt: '.7deg' }
+    ];
+    const open = this.state.open;
+    const cards = data.map(c => ({
+      ...c,
+      flipped: !!open[c.n],
+      front: !open[c.n],
+      action: open[c.n] ? 'Draai terug naar de foto' : 'Draai de kaart om',
+      toggle: () => this.setState({ open: { ...open, [c.n]: !open[c.n] } })
+    }));
+    return { cards };
+  }
+}
+</script>
+<script src="runtime.js"></script>
+</body>
+</html>

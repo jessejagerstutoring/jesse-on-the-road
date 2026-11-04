@@ -1,0 +1,10 @@
+{
+  "name": "Jesse on the Road",
+  "description": "Travel stories from Jesse, told on a world map typed out of country names.",
+  "headline": "I'm going on a trip",
+  "subline": "and I'm taking you with me.",
+  "about": "Hi, I'm Jesse. I kept going to good places and not writing any of it down, so this is where that stops. These are the stories, often typed while waiting at an airport, along with whatever I wish someone had told me first.",
+  "upcoming": [
+    {"place": "Chiang Mai", "country": "Thailand", "lat": 18.79, "lon": 98.98, "tz": "Asia/Bangkok"}
+  ]
+}
