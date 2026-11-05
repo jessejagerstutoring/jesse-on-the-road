@@ -35,7 +35,7 @@ Blocks are separated by a blank line:
 
 ## Design
 
-Black ink on white paper by default, with an optional dark mode, and colour only in photos. The typed map stays at the centre of the home page with the stories straight under it. Every country on it is typed from its own name, in the language of the page.. Keep titles compact, not extra-wide. No drawn illustrations: the look must not feel cartoonish. Fonts: Archivo (headlines), Newsreader (reading), Courier Prime (labels). Interface text lives in `STRINGS` in `build.py`, in both languages. The site must work for someone's grandmother, on phones and tablets, and in Safari. Test in WebKit.
+Black ink on white paper by default, with an optional dark mode, and colour only in photos. The typed map stays at the centre of the home page with the stories straight under it. Every country on it is typed from its own name, in the language of the page. Keep titles compact, not extra-wide. No drawn illustrations: the look must not feel cartoonish. Fonts: Archivo (headlines), Newsreader (reading), Courier Prime (labels). Interface text lives in `STRINGS` in `build.py`, in both languages. The site must work for someone's grandmother, on phones and tablets, and in Safari. Test in WebKit.
 
 ## Files
 
