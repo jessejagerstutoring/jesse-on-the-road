@@ -237,6 +237,14 @@ a.photo-link { display: block; cursor: zoom-in; }
   background: none; color: var(--ink); border: 2px solid var(--ink); font-family: var(--type); font-size: var(--type-size);
 }
 #share:hover { background: var(--ink); color: var(--paper); }
+.contact { margin-top: 2.2em; padding-top: 1.2em; border-top: 1px solid var(--line); }
+.contact p { margin: 0 0 12px; }
+.contact-links { display: flex; flex-wrap: wrap; gap: 4px 24px; }
+.contact-link {
+  display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-family: var(--type); font-size: var(--type-size);
+  text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+}
+.contact-link:hover { text-decoration-thickness: 3px; }
 .pager { margin-top: clamp(36px, 5vw, 60px); border-top: 3px solid var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
 .pager a {
   display: flex; flex-direction: column; gap: 6px; padding: 22px 0 28px; text-decoration: none; color: inherit;

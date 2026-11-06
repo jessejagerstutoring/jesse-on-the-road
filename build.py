@@ -216,6 +216,9 @@ STRINGS = {
         "time": "It is {time} in {place} right now.", "typing": "Now typing: {name}",
         "stats": "{stories}, {countries}, {places}, {minutes} minutes of reading",
         "country": "country", "countries": "countries", "place": "place", "places": "places",
+        "ask": "A question, a tip or just a reaction? Send me a message. I read everything.",
+        "contact": "Send me a message", "instagram": "Message me on Instagram", "email": "Send me an email",
+        "email_subject": "About {title}",
     },
     "nl": {
         "skip": "Naar de verhalen", "menu": "Hoofdmenu", "map": "De kaart", "about": "Over mij",
@@ -234,6 +237,9 @@ STRINGS = {
         "time": "Het is nu {time} in {place}.", "typing": "Nu aan het typen: {name}",
         "stats": "{stories}, {countries}, {places}, {minutes} minuten leestijd",
         "country": "land", "countries": "landen", "place": "plek", "places": "plekken",
+        "ask": "Een vraag, een tip of gewoon een reactie? Stuur me een bericht. Ik lees alles.",
+        "contact": "Stuur me een bericht", "instagram": "Stuur een bericht via Instagram", "email": "Stuur me een e-mail",
+        "email_subject": "Over {title}",
     },
 }
 BROWSER_STRINGS = ("larger", "smaller", "dark", "light", "story_coming", "story", "stories", "from", "world",
@@ -291,6 +297,25 @@ def page(lang, config, title, description, root, local, alternate, path, body, d
 </body>
 </html>
 """
+
+
+def contact_box(config, lang, subject=""):
+    """Ways to send Jesse a message, shown only once an Instagram name or email is filled in."""
+    from urllib.parse import quote
+    t = STRINGS[lang]
+    contact = config.get("contact", {})
+    handle = contact.get("instagram", "").strip().lstrip("@")
+    email = contact.get("email", "").strip()
+    links = []
+    if handle:
+        links.append(f'<a class="contact-link" href="https://ig.me/m/{quote(handle)}" rel="noopener">{esc(t["instagram"])}</a>')
+    if email:
+        query = f"?subject={quote(subject)}" if subject else ""
+        links.append(f'<a class="contact-link" href="mailto:{esc(email)}{query}">{esc(t["email"])}</a>')
+    if not links:
+        return ""
+    return (f'<section class="contact" aria-label="{esc(t["contact"])}"><p>{esc(t["ask"])}</p>'
+            f'<div class="contact-links">{"".join(links)}</div></section>')
 
 
 def count(n, one, many):
@@ -355,7 +380,7 @@ def build_home(config, stories, lang, out):
 </section>
 <section class="about" id="about">
 <h2>{esc(t["about"])}</h2>
-<div><p>{inline(text_config["about"])}</p></div>
+<div><p>{inline(text_config["about"])}</p>{contact_box(config, lang)}</div>
 </section>
 <footer class="foot">{esc(stats(stories, lang))}.</footer>
 </div>
@@ -419,6 +444,7 @@ def build_story(config, stories, i, lang, out):
 <p class="caption-line"><a href="../index.html#{s["key_place"]}">{esc(t["every"].format(place=s["place"]))}</a></p>
 </section>
 <div class="story-foot"><button type="button" id="share">{esc(t["share"])}</button></div>
+{contact_box(config, lang, t["email_subject"].format(title=s["title"]))}
 </article>
 </div>
 <div class="wrap"><nav class="pager" aria-label="{esc(t["more"])}">{prev_link}{next_link}</nav></div>

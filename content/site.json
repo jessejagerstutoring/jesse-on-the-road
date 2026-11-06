@@ -1,14 +1,18 @@
 {
   "url": "https://jessejagerstutoring.github.io/jesse-on-the-road/",
+  "contact": {
+    "instagram": "",
+    "email": ""
+  },
   "en": {
-    "name": "Jesse on the Road",
+    "name": "Jesse's Travels",
     "description": "Travel stories from Jesse, told on a world map typed out of country names.",
     "headline": "I'm going on a trip",
     "subline": "and I'm taking you with me.",
     "about": "Hi, I'm Jesse. I kept going to good places and not writing any of it down, so this is where that stops. These are the stories, often typed while waiting at an airport, along with whatever I wish someone had told me first."
   },
   "nl": {
-    "name": "Jesse op reis",
+    "name": "Jesse's Travels",
     "description": "Reisverhalen van Jesse, op een wereldkaart getypt uit landnamen.",
     "headline": "Ik ga op reis",
     "subline": "en ik neem jullie mee.",
