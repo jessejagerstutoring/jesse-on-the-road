@@ -8,7 +8,7 @@ No installs needed: it uses Python and macOS's own image tools (sips and ImageIO
 Photos are resized for phones, tablets and big screens, turned the right way up, and
 stripped of hidden metadata, so a photo never reveals its GPS location.
 """
-import argparse, base64, html, json, re, shutil, subprocess, sys, tempfile
+import argparse, base64, datetime, html, json, re, shutil, subprocess, sys, tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -43,14 +43,18 @@ def parse_story(path, lang, base=None):
         if ":" in line:
             key, value = line.split(":", 1)
             meta[key.strip()] = value.strip()
-    required = ("title", "dek", "place", "country") + (() if base else ("lat", "lon", "tz"))
+    required = ("title", "dek", "place", "country") + (() if base else ("lat", "lon", "tz", "date"))
     for key in required:
         if key not in meta:
             sys.exit(f"{path} is missing '{key}' in its header")
     if base:
-        meta.update(lat=base["lat"], lon=base["lon"], tz=base["tz"], key_place=base["key_place"],
+        meta.update(lat=base["lat"], lon=base["lon"], tz=base["tz"], date=base["date"], key_place=base["key_place"],
                     key_country=base["key_country"], country_en=base["country_en"])
     else:
+        try:
+            meta["date"] = datetime.date.fromisoformat(meta["date"])
+        except ValueError:
+            sys.exit(f"{path}: date must look like 2026-11-04 (year-month-day)")
         meta.update(lat=float(meta["lat"]), lon=float(meta["lon"]), key_place=key_of(meta["place"]),
                     key_country=key_of(meta["country"]), country_en=meta["country"])
     meta["lang"] = lang
@@ -219,6 +223,12 @@ STRINGS = {
         "ask": "A question, a tip or just a reaction? Send me a message. I read everything.",
         "contact": "Send me a message", "instagram": "Message me on Instagram", "email": "Send me an email",
         "email_subject": "About {title}",
+        "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+                   "October", "November", "December"],
+        "news_title": "Come along on the trip",
+        "news_text": "Leave your email and now and then you'll get a short update from me: where I am, and the newest stories.",
+        "news_label": "Your email address", "news_button": "Sign me up",
+        "news_small": "Only for these updates. You can unsubscribe at any time.",
     },
     "nl": {
         "skip": "Naar de verhalen", "menu": "Hoofdmenu", "map": "De kaart", "about": "Over mij",
@@ -240,6 +250,12 @@ STRINGS = {
         "ask": "Een vraag, een tip of gewoon een reactie? Stuur me een bericht. Ik lees alles.",
         "contact": "Stuur me een bericht", "instagram": "Stuur een bericht via Instagram", "email": "Stuur me een e-mail",
         "email_subject": "Over {title}",
+        "months": ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september",
+                   "oktober", "november", "december"],
+        "news_title": "Reis met me mee",
+        "news_text": "Laat je e-mailadres achter en je krijgt af en toe een korte update van mij: waar ik nu ben, en de nieuwste verhalen.",
+        "news_label": "Je e-mailadres", "news_button": "Schrijf me in",
+        "news_small": "Alleen voor deze updates. Afmelden kan altijd.",
     },
 }
 BROWSER_STRINGS = ("larger", "smaller", "dark", "light", "story_coming", "story", "stories", "from", "world",
@@ -318,6 +334,30 @@ def contact_box(config, lang, subject=""):
             f'<div class="contact-links">{"".join(links)}</div></section>')
 
 
+def nice_date(day, lang):
+    return f'{day.day} {STRINGS[lang]["months"][day.month - 1]} {day.year}'
+
+
+def newsletter_box(config, lang):
+    """A sign-up form for the update mail, shown only once a mailing service's form address is filled in."""
+    news = config.get("newsletter", {})
+    action = news.get("action", "").strip()
+    if not action.startswith("https://"):
+        return ""
+    t = STRINGS[lang]
+    field = news.get("field", "email")
+    return f"""<section class="newsletter" aria-labelledby="news-title-{lang}">
+<h2 id="news-title-{lang}">{esc(t["news_title"])}</h2>
+<p>{esc(t["news_text"])}</p>
+<form action="{esc(action)}" method="post" target="_blank">
+<label for="news-email-{lang}">{esc(t["news_label"])}</label>
+<div class="news-row"><input id="news-email-{lang}" type="email" name="{esc(field)}" autocomplete="email" required>
+<button type="submit">{esc(t["news_button"])}</button></div>
+</form>
+<p class="news-small">{esc(t["news_small"])}</p>
+</section>"""
+
+
 def count(n, one, many):
     return f"{n} {one if n == 1 else many}"
 
@@ -346,7 +386,7 @@ def build_home(config, stories, lang, out):
             name = data["sizes"][0][1]
             thumb = f'<img class="row-thumb" src="{root}photos/{s["slug"]}/{esc(name)}" alt="" width="{data["w"]}" height="{data["h"]}" loading="lazy">'
         rows.append(f"""<a class="story-row" href="stories/{s["slug"]}.html" data-country="{s["key_country"]}" data-place="{s["key_place"]}">
-<span class="row-meta"><strong>{esc(s["place"])}</strong><span>{esc(s["country"])}</span><span>{esc(t["min_read"].format(n=s["minutes"]))}</span></span>
+<span class="row-meta"><strong>{esc(s["place"])}</strong><span>{esc(s["country"])}</span><time datetime="{s["date"].isoformat()}">{esc(nice_date(s["date"], lang))}</time><span>{esc(t["min_read"].format(n=s["minutes"]))}</span></span>
 <span><h2 class="row-title">{esc(s["title"])}</h2><p class="row-dek">{inline(s["dek"])}</p></span>
 {thumb}
 </a>""")
@@ -378,6 +418,7 @@ def build_home(config, stories, lang, out):
 {"".join(rows)}
 {next_up}
 </section>
+{newsletter_box(config, lang)}
 <section class="about" id="about">
 <h2>{esc(t["about"])}</h2>
 <div><p>{inline(text_config["about"])}</p>{contact_box(config, lang)}</div>
@@ -430,7 +471,7 @@ def build_story(config, stories, i, lang, out):
     body = f"""<div id="progress" aria-hidden="true"></div>
 <main id="main">
 <div class="wrap story-head">
-<p class="dateline"><strong>{esc(s["place"])}, {esc(s["country"])}</strong><span>{esc(part_text)}</span><span>{esc(t["min_read"].format(n=s["minutes"]))}</span></p>
+<p class="dateline"><strong>{esc(s["place"])}, {esc(s["country"])}</strong><time datetime="{s["date"].isoformat()}">{esc(nice_date(s["date"], lang))}</time><span>{esc(part_text)}</span><span>{esc(t["min_read"].format(n=s["minutes"]))}</span></p>
 <h1>{esc(s["title"])}</h1>
 <p class="dek">{inline(s["dek"])}</p>
 </div>
@@ -445,6 +486,7 @@ def build_story(config, stories, i, lang, out):
 </section>
 <div class="story-foot"><button type="button" id="share">{esc(t["share"])}</button></div>
 {contact_box(config, lang, t["email_subject"].format(title=s["title"]))}
+{newsletter_box(config, lang)}
 </article>
 </div>
 <div class="wrap"><nav class="pager" aria-label="{esc(t["more"])}">{prev_link}{next_link}</nav></div>

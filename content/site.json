@@ -4,6 +4,10 @@
     "instagram": "",
     "email": ""
   },
+  "newsletter": {
+    "action": "",
+    "field": "email"
+  },
   "en": {
     "name": "Jesse's Travels",
     "description": "Travel stories from Jesse, told on a world map typed out of country names.",

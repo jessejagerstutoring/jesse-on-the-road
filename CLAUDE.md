@@ -13,8 +13,9 @@ Every story must go on the site in both English and Dutch. The build stops if a 
 5. Run `python3 -I build.py`, which writes English to `docs/` and Dutch to `docs/nl/`.
 6. Commit and push to `main` when Jesse asks. GitHub Pages publishes `docs/` automatically. Original photos stay off GitHub (see `.gitignore`), because they can contain GPS data; only the cleaned copies in `docs/photos/` are published.
 
-The header of `story.md` needs `title`, `dek`, `place`, `country`, `lat`, `lon` and `tz`. `country` must be the English map name (for example `United States`). The header of `story.nl.md` needs `title`, `dek`, `place` and `country`, in Dutch. A new place appears on the map by itself.
+The header of `story.md` needs `title`, `dek`, `place`, `country`, `lat`, `lon`, `tz` and `date` (the day it goes on the site, like `2026-11-04`). `country` must be the English map name (for example `United States`). The header of `story.nl.md` needs `title`, `dek`, `place` and `country`, in Dutch. A new place appears on the map by itself.
 Fill in `contact` (Instagram name without @, and email) in `content/site.json` to show the message box under every story and in About.
+Fill in `newsletter.action` (the sign-up form address from the mailing service) and `newsletter.field` (its email field name) to show the sign-up form.
 Move a place out of `upcoming` in `content/site.json` once its first story is live.
 
 ## Body format

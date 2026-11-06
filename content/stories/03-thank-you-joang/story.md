@@ -6,6 +6,7 @@ country: Thailand
 lat: 13.75
 lon: 100.50
 tz: Asia/Bangkok
+date: 2026-11-04
 ---
 
 ![Waiting at Don Meung, and typing this.](placeholder-16x9)

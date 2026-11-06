@@ -6,6 +6,7 @@ country: Thailand
 lat: 13.75
 lon: 100.50
 tz: Asia/Bangkok
+date: 2026-11-04
 ---
 
 ![Into the chaos of Chinatown, on a Dutch bike tour.](placeholder-16x9)
